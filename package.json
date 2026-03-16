@@ -1,0 +1,24 @@
+{
+  "name": "cs-465-full-stack-development",
+  "version": "1.0.0",
+  "description": "CS-465 Travlr Getaways full stack web application built with the MEAN stack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarioFred-snhu/CS-465-Full-Stack-Development.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MarioFred-snhu/CS-465-Full-Stack-Development/issues"
+  },
+  "homepage": "https://github.com/MarioFred-snhu/CS-465-Full-Stack-Development#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
