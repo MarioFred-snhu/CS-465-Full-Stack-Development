@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/MarioFred-snhu/CS-465-Full-Stack-Development#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "hbs": "^4.2.0"
   }
 }
