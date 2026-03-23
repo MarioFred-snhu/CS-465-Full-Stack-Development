@@ -1,3 +1,12 @@
+const fs = require('fs');
+const path = require('path');
+
+const getTrips = () => {
+  const filePath = path.join(__dirname, '..', '..', 'data', 'trips.json');
+  const raw = fs.readFileSync(filePath, 'utf-8');
+  return JSON.parse(raw);
+};
+
 const home = (req, res) => {
   res.render('index', {
     title: 'Travlr Getaways',
@@ -32,32 +41,12 @@ const home = (req, res) => {
 };
 
 const travel = (req, res) => {
+  const trips = getTrips();
+
   res.render('travel', {
     title: 'Travlr Getaways',
-    subtitle: 'Travel Packages',
-    intro:
-      'Browse curated trips designed for relaxation, adventure, and everything in between.',
-    tip: 'Book early for the best availability and seasonal pricing.',
-    packages: [
-      {
-        name: 'Island Escape',
-        duration: '5 nights',
-        price: '$799',
-        description: 'Beachfront stay with snorkeling and sunset cruise.'
-      },
-      {
-        name: 'Mountain Adventure',
-        duration: '3 nights',
-        price: '$549',
-        description: 'Guided hikes, scenic views, and cabin lodging.'
-      },
-      {
-        name: 'City Weekend',
-        duration: '2 nights',
-        price: '$399',
-        description: 'Downtown hotel, food tour, and museum passes.'
-      }
-    ]
+    subtitle: 'Travel',
+    trips
   });
 };
 
