@@ -1,0 +1,37 @@
+<h2>Trips</h2>
+
+<h3>Add a New Trip</h3>
+
+<div>
+  <input [(ngModel)]="newTrip.tripCode" placeholder="Trip Code" />
+  <input [(ngModel)]="newTrip.name" placeholder="Trip Name" />
+  <input [(ngModel)]="newTrip.length" placeholder="Length" />
+  <input [(ngModel)]="newTrip.start" placeholder="Start Price" />
+  <input [(ngModel)]="newTrip.resort" placeholder="Resort" />
+  <input [(ngModel)]="newTrip.perPerson" placeholder="Per Person" />
+  <input [(ngModel)]="newTrip.image" placeholder="Image Path" />
+  <input [(ngModel)]="newTrip.description" placeholder="Description" />
+  <button (click)="addTrip()">Add Trip</button>
+</div>
+
+<hr />
+
+<h3>Trip List</h3>
+
+<p>Total trips: {{ trips.length }}</p>
+<p *ngIf="trips.length > 0">First trip: {{ trips[0].name }}</p>
+
+<div *ngIf="trips.length === 0">
+  No trips found.
+</div>
+
+<div *ngFor="let trip of trips">
+  <h3>{{ trip.name }}</h3>
+  <p>{{ trip.length }} | {{ trip.perPerson }}</p>
+  <p>{{ trip.description }}</p>
+
+  <button (click)="editTrip(trip)">Edit</button>
+  <button (click)="deleteTrip(trip.tripCode)">Delete</button>
+
+  <hr />
+</div>

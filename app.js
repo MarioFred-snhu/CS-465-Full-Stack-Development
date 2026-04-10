@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('hbs');
+const cors = require('cors');
 
 require('./app_api/models/db');
 require('./app_api/models/trips');
@@ -10,6 +11,10 @@ const apiTripsRouter = require('./app_api/routes/trips');
 
 const app = express();
 const PORT = 3000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // View engine (HBS)
 app.set('views', path.join(__dirname, 'app_server', 'views'));
