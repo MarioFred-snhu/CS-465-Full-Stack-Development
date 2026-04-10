@@ -12,6 +12,12 @@ import { TripDataService } from '../../services/trip-data';
 })
 export class TripList implements OnInit {
   trips: any[] = [];
+  isLoggedIn = false;
+
+  loginData = {
+    email: '',
+    password: ''
+  };
 
   newTrip: any = {
     tripCode: '',
@@ -30,18 +36,38 @@ export class TripList implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoggedIn = !!localStorage.getItem('travlr-token');
     this.loadTrips();
+  }
+
+  login(): void {
+    this.tripService.login(this.loginData.email, this.loginData.password).subscribe({
+      next: (res: any) => {
+        localStorage.setItem('travlr-token', res.token);
+        this.isLoggedIn = true;
+        alert('Login successful');
+      },
+      error: (err: any) => {
+        console.error('Login error:', err);
+        alert('Login failed');
+      }
+    });
+  }
+
+  logout(): void {
+    localStorage.removeItem('travlr-token');
+    this.isLoggedIn = false;
   }
 
   loadTrips(): void {
     this.tripService.getTrips().subscribe({
-      next: (data) => {
+      next: (data: any) => {
         console.log('Trips loaded:', data);
         this.trips = Array.isArray(data) ? [...data] : [];
         console.log('Trips stored:', this.trips);
         this.cdr.detectChanges();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Trip load error:', err);
         this.trips = [];
         this.cdr.detectChanges();
@@ -69,8 +95,14 @@ export class TripList implements OnInit {
           description: ''
         };
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Add trip error:', err);
+
+        if (err.status === 401) {
+          alert('You must be logged in.');
+        } else {
+          alert('Missing or invalid fields.');
+        }
       }
     });
   }
@@ -94,14 +126,34 @@ export class TripList implements OnInit {
 
     this.tripService.updateTrip(trip.tripCode, updatedTrip).subscribe({
       next: () => this.loadTrips(),
-      error: (err) => console.error('Update trip error:', err)
+      error: (err: any) => {
+        console.error('Update trip error:', err);
+
+        if (err.status === 401) {
+          alert('You must be logged in.');
+        } else {
+          alert('Update failed.');
+        }
+      }
     });
   }
 
   deleteTrip(tripCode: string): void {
+    if (!confirm('Are you sure you want to delete this trip?')) {
+      return;
+    }
+
     this.tripService.deleteTrip(tripCode).subscribe({
       next: () => this.loadTrips(),
-      error: (err) => console.error('Delete trip error:', err)
+      error: (err: any) => {
+        console.error('Delete trip error:', err);
+
+        if (err.status === 401) {
+          alert('You must be logged in.');
+        } else {
+          alert('Delete failed.');
+        }
+      }
     });
   }
 }
