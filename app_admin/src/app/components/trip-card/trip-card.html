@@ -1,0 +1,8 @@
+<div *ngIf="trip">
+  <h3>{{ trip.name }}</h3>
+  <p>{{ trip.length }} | {{ trip.perPerson }}</p>
+  <p>{{ trip.description }}</p>
+  <button (click)="onEdit()">Edit</button>
+  <button (click)="onDelete()">Delete</button>
+  <hr />
+</div>

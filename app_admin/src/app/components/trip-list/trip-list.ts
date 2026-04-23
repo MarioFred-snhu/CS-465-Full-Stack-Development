@@ -2,11 +2,13 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TripDataService } from '../../services/trip-data';
+import { TripCardComponent } from '../trip-card/trip-card';
+import { AddTripComponent } from '../add-trip/add-trip';
 
 @Component({
   selector: 'app-trip-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TripCardComponent, AddTripComponent],
   templateUrl: './trip-list.html',
   styleUrl: './trip-list.css'
 })
@@ -17,17 +19,6 @@ export class TripList implements OnInit {
   loginData = {
     email: '',
     password: ''
-  };
-
-  newTrip: any = {
-    tripCode: '',
-    name: '',
-    length: '',
-    start: '',
-    resort: '',
-    perPerson: '',
-    image: '',
-    description: ''
   };
 
   constructor(
@@ -62,9 +53,7 @@ export class TripList implements OnInit {
   loadTrips(): void {
     this.tripService.getTrips().subscribe({
       next: (data: any) => {
-        console.log('Trips loaded:', data);
         this.trips = Array.isArray(data) ? [...data] : [];
-        console.log('Trips stored:', this.trips);
         this.cdr.detectChanges();
       },
       error: (err: any) => {
@@ -75,29 +64,24 @@ export class TripList implements OnInit {
     });
   }
 
-  addTrip(): void {
-    if (!this.newTrip.tripCode || !this.newTrip.name) {
-      alert('Trip code and name are required.');
+  addTrip(newTrip: any): void {
+    if (
+      !newTrip.tripCode ||
+      !newTrip.name ||
+      !newTrip.length ||
+      !newTrip.start ||
+      !newTrip.resort ||
+      !newTrip.perPerson ||
+      !newTrip.description
+    ) {
+      alert('All required fields must be completed.');
       return;
     }
 
-    this.tripService.addTrip(this.newTrip).subscribe({
-      next: () => {
-        this.loadTrips();
-        this.newTrip = {
-          tripCode: '',
-          name: '',
-          length: '',
-          start: '',
-          resort: '',
-          perPerson: '',
-          image: '',
-          description: ''
-        };
-      },
+    this.tripService.addTrip(newTrip).subscribe({
+      next: () => this.loadTrips(),
       error: (err: any) => {
         console.error('Add trip error:', err);
-
         if (err.status === 401) {
           alert('You must be logged in.');
         } else {
@@ -128,7 +112,6 @@ export class TripList implements OnInit {
       next: () => this.loadTrips(),
       error: (err: any) => {
         console.error('Update trip error:', err);
-
         if (err.status === 401) {
           alert('You must be logged in.');
         } else {
@@ -147,7 +130,6 @@ export class TripList implements OnInit {
       next: () => this.loadTrips(),
       error: (err: any) => {
         console.error('Delete trip error:', err);
-
         if (err.status === 401) {
           alert('You must be logged in.');
         } else {

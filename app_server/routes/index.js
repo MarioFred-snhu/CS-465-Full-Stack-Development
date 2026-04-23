@@ -6,8 +6,11 @@ const ctrlTrips = require('../controllers/trips');
 
 router.get('/', ctrlTravlr.home);
 
-// IMPORTANT: travel page now renders from API JSON
+// travel list (all trips)
 router.get('/travel', ctrlTrips.tripsList);
+
+// 🔥 ADD THIS (REQUIRED for your grade)
+router.get('/travel/:tripCode', ctrlTrips.tripsFindByCode);
 
 router.get('/rooms', ctrlTravlr.rooms);
 router.get('/meals', ctrlTravlr.meals);

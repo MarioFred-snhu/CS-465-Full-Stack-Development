@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { TripList } from './components/trip-list/trip-list';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [TripList],
-  template: `<app-trip-list></app-trip-list>`
+  imports: [RouterOutlet],
+  template: `<router-outlet></router-outlet>`
 })
 export class App {}

@@ -1,0 +1,15 @@
+<h3>Add a New Trip</h3>
+
+<div>
+  <input [(ngModel)]="newTrip.tripCode" placeholder="Trip Code" />
+  <input [(ngModel)]="newTrip.name" placeholder="Trip Name" />
+  <input [(ngModel)]="newTrip.length" placeholder="Length" />
+  <input [(ngModel)]="newTrip.start" placeholder="Start Price" />
+  <input [(ngModel)]="newTrip.resort" placeholder="Resort" />
+  <input [(ngModel)]="newTrip.perPerson" placeholder="Per Person" />
+  <input [(ngModel)]="newTrip.image" placeholder="Image Path" />
+  <input [(ngModel)]="newTrip.description" placeholder="Description" />
+  <button (click)="submitTrip()">Add Trip</button>
+</div>
+
+<hr />
